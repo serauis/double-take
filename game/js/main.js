@@ -43,13 +43,18 @@ function applyStaging(params) {
   };
   startPlaying();
   if (stage === 'end') {
+    loadScene(SCENES.length - 1);
+    game.now = 1.35;
+    for (const diff of game.scene.differences) {
+      game.found.add(diff.id);
+      game.rings.push({ id: diff.id, x: diff.x, y: diff.y, r: diff.r, born: game.now - 2 });
+    }
     game.score = 2740;
     game.totalFinds = 27;
     game.bestStreak = 9;
     game.misses = 4;
     game.phase = 'won';
     game.frozen = true;
-    game.now = 1.35;
     return;
   }
   const pose = presets[stage] ?? { scene: 0, found: [], left: null, score: 0, streak: 0, hints: 3 };
